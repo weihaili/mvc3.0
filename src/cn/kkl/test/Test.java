@@ -1,5 +1,6 @@
 package cn.kkl.test;
 
+import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.orm.hibernate3.HibernateTransactionManager;
@@ -16,6 +17,8 @@ import org.springframework.web.servlet.view.JstlView;
 public class Test {
 	
 	public static void main(String[] args) {
+		MappingJacksonHttpMessageConverter converter;
+		
 		CommonsMultipartResolver upresolver;
 		
 		ModelMap modelMap;

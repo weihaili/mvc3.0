@@ -10,7 +10,9 @@
 <title>Insert title here</title>
 <%
 	pageContext.setAttribute("APP_PATH", request.getContextPath());
+	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
 %>
+<base href="<%=basePath%>">
 </head>
 <body>
 	<h1>welcome liweihai</h1>
@@ -32,8 +34,35 @@
 			}
 		%>
 	</table>
+	<a href="javascript:void(0);" onclick="sendAjaxReq();">test</a>
+	<div id="div1"></div>
 </body>
 <script type="text/javascript">
-	
+	function createAjaxObj(){
+		var req;
+		if(window.XMLHttpRequest){
+			req=new XMLHttpRequest();
+		}else{
+			req=new ActiveXObject("Msxml2.XMLHTTP");
+		}
+		return req;
+	}
+
+	function sendAjaxReq(){
+		var req=createAjaxObj();
+		req.open("get", "myajax.do?method=test1&uname=zhangsan");
+		req.setRequestHeader("accept", "application/json");
+		req.onreadystatechange = function(){
+			if(4==req.readyState){
+				if(200==req.status){
+					var responseText = req.responseText;
+					alert(responseText);
+					eval("var result="+responseText);
+					document.getElementById("div1").innerHTML=result[0].uname;
+				}
+			}
+		}
+		req.send(null);
+	}
 </script>
 </html>

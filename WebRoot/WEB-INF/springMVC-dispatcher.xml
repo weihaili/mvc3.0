@@ -16,8 +16,27 @@
     <mvc:annotation-driven/>
     
     <!-- 注解pojo与请求的映射 -->
-    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"></bean>
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+    	<property name="cacheSeconds" value="0"></property>
+    	<property name="messageConverters">
+    		<list>
+    			<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"></bean>
+    		</list>
+    	</property>
+    </bean>
     <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"></bean>
+    
+    <!-- 拦截器注册配置 -->
+    <mvc:interceptors>
+    	<!-- 拦截所有的请求 -->
+    	<bean class="cn.kkl.interceptor.UsualInterceptor"></bean>
+    	
+    	<!-- 只拦截/user.do请求 -->
+    	<mvc:interceptor>
+    		<mvc:mapping path="/user.do"/>
+    		<bean class="cn.kkl.interceptor.LoginInterceptor"></bean>
+    	</mvc:interceptor>
+    </mvc:interceptors>
     
     <!-- 视图解析器  对视图的解析 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
